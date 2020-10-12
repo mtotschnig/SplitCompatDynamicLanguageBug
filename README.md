@@ -13,3 +13,5 @@ Clicking on the DE button should switch the language of the TextView to German "
 
 Actual result:
 This works starting on API 24. On API 23 and below the TextView's text stays in English
+
+NB: If the app ist run directly from Android Studio, i.e. with both languages already included into the APK, switching to DE works on all API levels.
