@@ -1,6 +1,6 @@
 # SplitCompatDynamicLanguageBug
 
-This app illustrates a problem with SplitCompats dynamic language loading on API level 23 and below. The faulty behavior can be showcased by using bundletool:
+This app illustrates a [problem](https://issuetracker.google.com/issues/170489554) with SplitCompats dynamic language loading on API level 23 and below. The faulty behavior can be showcased by using bundletool:
 
 ```
 ./gradlew bundleDebug
