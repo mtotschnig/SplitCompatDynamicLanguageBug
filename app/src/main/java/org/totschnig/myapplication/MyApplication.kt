@@ -30,14 +30,12 @@ class MyApplication : Application() {
 
     override fun attachBaseContext(base: Context) {
         LanguageHelper.init(base)
-        val ctx = LanguageHelper.getLanguageConfigurationContext(base)
-        super.attachBaseContext(ctx)
+        super.attachBaseContext(base)
         SplitCompat.install(this)
     }
 }
 
 internal const val LANG_EN = "en"
-internal const val LANG_PL = "pl"
 
 private const val PREFS_LANG = "language"
 
@@ -61,24 +59,12 @@ object LanguageHelper {
     }
 
     /**
-     * Get a Context that overrides the language selection in the Configuration instance used by
-     * getResources() and getAssets() by one that is stored in the LanguageHelper preferences.
-     *
-     * @param ctx a base context to base the new context on
-     */
-    fun getLanguageConfigurationContext(ctx: Context): Context {
-        val conf = getLanguageConfiguration()
-        return ctx.createConfigurationContext(conf)
-    }
-
-    /**
      * Get an empty Configuration instance that only sets the language that is
      * stored in the LanguageHelper preferences.
      * For use with Context#createConfigurationContext or Activity#applyOverrideConfiguration().
      */
-    fun getLanguageConfiguration(): Configuration {
-        val conf = Configuration()
-        conf.setLocale(Locale.forLanguageTag(language))
-        return conf
+    fun getLanguageConfiguration(configuration: Configuration): Configuration {
+        configuration.setLocale(Locale.forLanguageTag(language))
+        return configuration
     }
 }

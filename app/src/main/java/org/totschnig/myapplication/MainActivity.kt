@@ -1,7 +1,8 @@
 package org.totschnig.myapplication
 
+import android.app.Activity
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,11 +14,11 @@ import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListene
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 	private lateinit var manager: SplitInstallManager
 	/** Listener used to handle changes in state for install requests. */
 	private val listener = SplitInstallStateUpdatedListener { state ->
-		Log.d("SPLIT","State "+ state.status())
+		Log.d("SPLIT", "State " + state.status())
 		val langsInstall = state.languages().isNotEmpty()
 
 		val names = if (langsInstall) {
@@ -51,23 +52,28 @@ class MainActivity : AppCompatActivity() {
 
 	override fun attachBaseContext(newBase: Context) {
 		super.attachBaseContext(newBase)
-		applyOverrideConfiguration(LanguageHelper.getLanguageConfiguration())
+		applyOverrideConfiguration(Configuration())
 		SplitCompat.installActivity(this)
 	}
+
+	override fun applyOverrideConfiguration(newConfig: Configuration) {
+		super.applyOverrideConfiguration(LanguageHelper.getLanguageConfiguration(newConfig))
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 		manager = SplitInstallManagerFactory.create(this)
 	}
 
-	fun loadGerman(view: View) {
-		if (manager.installedLanguages.contains("de")) {
-			onSuccessfulLanguageLoad("de")
+	fun loadFrench(view: View) {
+		if (manager.installedLanguages.contains("fr")) {
+			onSuccessfulLanguageLoad("fr")
 			return
 		}
 
 		val request = SplitInstallRequest.newBuilder()
-				.addLanguage(Locale.GERMAN)
+				.addLanguage(Locale.FRENCH)
 				.build()
 
 		// Load and install the requested language.
